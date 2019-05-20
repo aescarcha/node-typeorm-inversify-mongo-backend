@@ -1,0 +1,15 @@
+{
+  "storage": {
+    "database": {
+      "type": "mongodb",
+      "host": "localhost",
+      "port": 27017,
+      "database": "example",
+      "user": "example",
+      "password": "example"
+    },
+  },
+  "sessionKey": "sesionKey",
+  "apiKey": "keyForAPI",
+  "serviceApiToken": "keyForServices"
+}
