@@ -7,7 +7,7 @@
       "database": "example",
       "user": "example",
       "password": "example"
-    },
+    }
   },
   "sessionKey": "sesionKey",
   "apiKey": "keyForAPI",
