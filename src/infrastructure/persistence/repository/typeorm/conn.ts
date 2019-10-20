@@ -1,5 +1,7 @@
 import { createConnection } from 'typeorm';
 import { userMapping } from '../../mapping/typeorm/user';
+import { apiTokenMapping } from '../../mapping/typeorm/api-token';
+import { authTokenMapping } from '../../mapping/typeorm/auth-token';
 
 export async function getDbConnection() {
     const config = require('config');
@@ -13,6 +15,8 @@ export async function getDbConnection() {
 
     const entities = [
         userMapping,
+        apiTokenMapping,
+        authTokenMapping,
     ];
 
     return await createConnection({
@@ -23,11 +27,8 @@ export async function getDbConnection() {
         password: password,
         database: db,
         entities: entities,
-        authMechanism: 'SCRAM-SHA-1', // for mongo
-        authSource: 'admin',
-        useNewUrlParser: true,
         // logging: 'all',
-        synchronize: false
+        synchronize: true
     });
 
 }

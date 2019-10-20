@@ -7,6 +7,7 @@ import * as passport from 'passport';
 import session = require('express-session');
 import { DataInitializer } from './boot/data-initializer';
 import { TYPE } from './dependency_injection/types';
+import { loadPassport } from './middleware/passport';
 
 export const container = new Container();
 
@@ -37,7 +38,7 @@ export const container = new Container();
         }));
         application.use(allowCrossDomain);
 
-        require('./middleware/passport');
+        loadPassport(container);
         application.use(session({secret: config.get('sessionKey'), resave: true, saveUninitialized: true}));
         application.use(passport.initialize());
         application.use(passport.session());

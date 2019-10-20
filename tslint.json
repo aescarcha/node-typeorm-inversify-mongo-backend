@@ -12,6 +12,7 @@
     "no-var-requires": false,
     "no-duplicate-imports": false,
     "max-classes-per-file": false,
+    "no-object-literal-type-assertion": false,
     "no-string-literal": false,
     "import-spacing": true,
     "interface-over-type-literal": true,
