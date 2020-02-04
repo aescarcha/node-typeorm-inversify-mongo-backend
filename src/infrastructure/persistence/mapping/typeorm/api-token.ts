@@ -11,11 +11,10 @@ export const apiTokenMapping = new EntitySchema<ApiToken>({
             type: String,
         },
     },
-    // TODO This need works in mongo
-    // relations: {
-    //     user: {
-    //         type: 'many-to-one',
-    //         target: 'User',
-    //     },
-    // }
+    relations: {
+        user: {
+            type: 'many-to-one',
+            target: 'User',
+        },
+    }
 });

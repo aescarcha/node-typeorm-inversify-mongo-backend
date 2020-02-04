@@ -1,6 +1,5 @@
 import { EntitySchema } from 'typeorm';
 import { IUser } from '../../../../domain/user/interfaces';
-import { ApiToken, AuthToken } from '../../../../domain/user/user';
 import { baseColumnsSchemaPart } from './base';
 
 export const userMapping = new EntitySchema<IUser>({
@@ -29,14 +28,15 @@ export const userMapping = new EntitySchema<IUser>({
         passwordResetExpires: {
             type: Date,
         },
-        // Hacky hack: TypeOrm does not support objects as type yet in EntitySchema (it does for @Entity)
-        /* tslint:disable */
+    },
+    relations: {
         tokens: {
-            type: ApiToken as any
+            type: 'one-to-many',
+            target: 'AuthToken',
         },
         apiTokens: {
-            type: AuthToken as any
-        }
-        /* tslint:enable */
-    },
+            type: 'one-to-many',
+            target: 'ApiToken',
+        },
+    }
 });

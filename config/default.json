@@ -1,12 +1,13 @@
 {
   "storage": {
     "database": {
-      "type": "mongodb",
+      "type": "mysql",
       "host": "localhost",
-      "port": 27017,
+      "port": 3306,
       "database": "example",
-      "user": "example",
-      "password": "example"
+      "user": "root",
+      "password": "toor",
+      "sync": true
     }
   },
   "sessionKey": "sesionKey",
