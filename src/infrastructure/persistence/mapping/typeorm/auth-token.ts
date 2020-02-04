@@ -14,11 +14,12 @@ export const authTokenMapping = new EntitySchema<AuthToken>({
             type: String,
         },
     },
-    relations: {
-        user: {
-            type: 'many-to-one',
-            target: 'User',
-        },
-    }
+    // TODO This need works in mongo
+    // relations: {
+    //     user: {
+    //         type: 'many-to-one',
+    //         target: 'User',
+    //     },
+    // }
 
 });

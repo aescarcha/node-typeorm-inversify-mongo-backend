@@ -1,7 +1,7 @@
 import * as passport from 'passport';
 import * as passportLocal from 'passport-local';
 import * as passportJwt from 'passport-jwt';
-import { ApplicationUserService } from '../../application/services/user-service';
+import { AuthService } from '../../application/services/user-service';
 import { TYPE } from '../dependency_injection/types';
 import { IUser } from '../../domain/user/interfaces';
 import { Container } from 'inversify';
@@ -11,7 +11,7 @@ export function loadPassport(container: Container) {
     const jwtStrategy = passportJwt.Strategy;
 
     const config = require('config');
-    const userService = container.get<ApplicationUserService>(TYPE.Services.Application.User);
+    const authService = container.get<AuthService>(TYPE.Services.Application.Auth);
 
     passport.serializeUser<IUser, string>((user: IUser, done) => {
         done(undefined, user.id);
@@ -19,7 +19,7 @@ export function loadPassport(container: Container) {
 
     passport.deserializeUser<IUser, number>(async (id, done) => {
         try {
-            const user = await userService.get(id);
+            const user = await authService.get(id);
             done(undefined, user);
         } catch (e) {
             done(e, undefined);
@@ -30,11 +30,11 @@ export function loadPassport(container: Container) {
      * Sign in using Email and Password.
      */
     passport.use(new localStrategy({ usernameField: 'email' }, (email, password, done) => {
-        userService.findByEmail(email.toLowerCase()).then( (user: any) => {
+        authService.findByEmail(email.toLowerCase()).then( (user: any) => {
             if (!user) {
                 return done(undefined, false, { message: `Email ${email} not found.` });
             }
-            userService.comparePassword(user, password, (err: Error, isMatch: boolean) => {
+            authService.comparePassword(user, password, (err: Error, isMatch: boolean) => {
                 if (err) { return done(err); }
                 if (isMatch) {
                     return done(undefined, user);
@@ -68,7 +68,7 @@ export function loadPassport(container: Container) {
         secretOrKey : config.get('apiKey'),
     };
     passport.use(new jwtStrategy(opts, (jwtPayload, done) => {
-        userService.get(jwtPayload.id).then((user) => {
+        authService.get(jwtPayload.id).then((user) => {
             if ((user && `${user.id}` !== `${jwtPayload.id}` )) {
                 return done(undefined, false);
             }

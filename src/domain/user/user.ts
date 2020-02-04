@@ -1,21 +1,14 @@
 import { IApiToken, IAuthToken, IUser } from './interfaces';
+import { BaseEntity } from '../base-entity';
 
 
-export class ApiToken implements IApiToken {
-    public id?: string;
+export class ApiToken extends BaseEntity implements IApiToken {
     public user: IUser;
     public accessToken: string;
-    public createdAt: Date;
-    public updatedAt: Date;
-    public deletedAt: Date;
 }
 
-export class AuthToken implements IAuthToken {
-    public id?: string;
+export class AuthToken extends BaseEntity implements IAuthToken {
     public user: IUser;
     public accessToken: string;
     public kind: string;
-    public createdAt: Date;
-    public updatedAt: Date;
-    public deletedAt: Date;
 }

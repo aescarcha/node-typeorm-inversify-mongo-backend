@@ -1,7 +1,7 @@
-import { IDatedObject, IRepository, ISoftDeleteObject } from '../interfaces/interfaces';
+import { IBaseEntity, IRepository } from '../interfaces/interfaces';
 
-export interface IUser extends ISoftDeleteObject, IDatedObject {
-    id?: string;
+export interface IUser extends IBaseEntity {
+    id: string;
     email: string;
     name: string;
     password: string;
@@ -13,13 +13,13 @@ export interface IUser extends ISoftDeleteObject, IDatedObject {
     apiTokens: IApiToken[];
 }
 
-export interface IAuthToken {
+export interface IAuthToken extends IBaseEntity {
     accessToken: string,
     kind: string
 }
 
 // Tokens to add / remove access to the API
-export interface IApiToken {
+export interface IApiToken  extends IBaseEntity {
     accessToken: string,
     // Maybe permissions, lapse time?
 }

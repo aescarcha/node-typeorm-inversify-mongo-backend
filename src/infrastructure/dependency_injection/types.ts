@@ -8,11 +8,8 @@ export const TYPE = {
         }
     },
     Services: {
-        Domain: {
-            User: Symbol('UserDomainService'),
-        },
         Application: {
-            User: Symbol('UserApplicationService'),
+            Auth: Symbol('AuthService'),
         },
         Infrastructure: {
             DataInitializer: Symbol('DataInitializerService')

@@ -9,13 +9,28 @@ import { DataInitializer } from './boot/data-initializer';
 import { TYPE } from './dependency_injection/types';
 import { loadPassport } from './middleware/passport';
 
-export const container = new Container();
+export let container = new Container();
+export let server;
 
-(async () => {
-    const port = 3000;
+export async function createContainer() {
     await container.loadAsync(bindings);
     const initializer: DataInitializer = container.get(TYPE.Services.Infrastructure.DataInitializer);
     await initializer.initialize();
+    loadPassport(container);
+    return container;
+}
+
+export async function createServer(recreate = false) {
+    if (recreate) {
+        server = undefined;
+        container = new Container();
+    }
+
+    if (server) {
+        return server;
+    }
+    await createContainer();
+
     const app = new InversifyExpressServer(container);
 
     const allowCrossDomain = (req, res, next) => {
@@ -38,7 +53,6 @@ export const container = new Container();
         }));
         application.use(allowCrossDomain);
 
-        loadPassport(container);
         application.use(session({secret: config.get('sessionKey'), resave: true, saveUninitialized: true}));
         application.use(passport.initialize());
         application.use(passport.session());
@@ -48,11 +62,20 @@ export const container = new Container();
             next();
         });
     });
-    const server = app.build();
-    
-    server.listen(port, () => {
-        console.log(`Server running at http://127.0.0.1:${port}/`)
-    });
+    server = app.build();
+    return server;
+}
 
-})();
+// Main
+if (process.env.NODE_ENV !== 'tests') {
+    (async () => {
+        const port = 3000;
+        const serv = await createServer();
+
+        serv.listen(port, () => {
+            console.log(`Server running at http://127.0.0.1:${port}/`);
+        });
+
+    })();
+}
 

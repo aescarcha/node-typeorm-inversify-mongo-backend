@@ -3,8 +3,8 @@ import { IUser } from '../src/domain/user/interfaces';
 export const users: IUser[] = [
     {
         apiTokens: [],
-        createdAt: new Date(),
-        deletedAt: undefined,
+        created: new Date(),
+        deleted: undefined,
         email: "aas@das.com",
         id: "1243asdzxc",
         language: "",
@@ -14,7 +14,21 @@ export const users: IUser[] = [
         passwordResetExpires: undefined,
         passwordResetToken: "",
         tokens: [],
-        updatedAt: new Date()
-
+        updated: new Date()
+    },
+    {
+        apiTokens: [],
+        created: new Date(),
+        deleted: undefined,
+        email: "eeeee@das.com",
+        id: "asfs23412azzz",
+        language: "",
+        locale: "",
+        name: "Gwen Stacy",
+        password: "dfjads12asf213asss",
+        passwordResetExpires: undefined,
+        passwordResetToken: "",
+        tokens: [],
+        updated: new Date()
     }
 ];

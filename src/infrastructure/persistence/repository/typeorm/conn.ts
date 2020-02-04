@@ -27,6 +27,9 @@ export async function getDbConnection() {
         password: password,
         database: db,
         entities: entities,
+        authMechanism: 'SCRAM-SHA-1', // for mongo
+        authSource: 'admin', // for mongo
+        useNewUrlParser: true, // for mongo
         // logging: 'all',
         synchronize: true
     });

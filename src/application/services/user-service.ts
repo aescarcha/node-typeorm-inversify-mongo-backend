@@ -1,33 +1,35 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../infrastructure/dependency_injection/types';
-import { IRegistryParams, IUser } from '../../domain/user/interfaces';
+import { IRegistryParams, IUser, IUserRepository } from '../../domain/user/interfaces';
 import * as bcrypt from 'bcrypt-nodejs';
-import { DomainUserService } from '../../domain/user/user-service';
 import { sign } from 'jsonwebtoken';
+import uuid = require('uuid');
 
 @injectable()
-export class ApplicationUserService {
+export class AuthService {
     private crypto = require('crypto');
     private config = require('config');
 
     constructor(
-        @inject(TYPE.Services.Domain.User) private domainUserService: DomainUserService
-    ) {}
+        @inject(TYPE.Repositories.Domain.User) private userRepository: IUserRepository
+
+) {}
 
     public async create(element: IUser): Promise<IUser> {
         if (await this.findByEmail(element.email)) {
             throw new Error('Error creating');
         }
         element.password = await this.hashString(element.password);
-        return this.domainUserService.create(element);
+        element.created = new Date();
+        return this.userRepository.save(element);
     }
 
     public get(id: object | string | number): Promise<IUser> {
-        return this.domainUserService.get(id);
+        return this.userRepository.get(id);
     }
 
     public async findByEmail(email: string): Promise<IUser> {
-        return this.domainUserService.findByEmail(email);
+        return this.userRepository.findOne({email: email});
     }
 
     public comparePassword(user, candidatePassword: string, cb: (err: any, isMatch: any) => {}): void {
@@ -38,6 +40,7 @@ export class ApplicationUserService {
 
     public async register(params: IRegistryParams) {
         const user = {
+            id: uuid.v4(),
             name: '',
             email: params.email,
             password: params.password,

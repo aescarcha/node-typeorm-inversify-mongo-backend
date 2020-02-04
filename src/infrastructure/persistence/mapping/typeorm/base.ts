@@ -2,21 +2,22 @@ import { EntitySchemaColumnOptions } from 'typeorm';
 
 export const baseColumnsSchemaPart = {
     id: {
-        type: 'uuid',
+        type: String,
         primary: true,
-        generated: 'uuid',
+        generated: true,
+        objectId: true
     } as EntitySchemaColumnOptions,
-    createdAt: {
+    created: {
         type: Date,
         nullable: true,
         createDate: true
     } as EntitySchemaColumnOptions,
-    updatedAt: {
+    updated: {
         type: Date,
         nullable: true,
         updateDate: true
     } as EntitySchemaColumnOptions,
-    deletedAt: {
+    deleted: {
         type: Date,
         nullable: true
     } as EntitySchemaColumnOptions,
