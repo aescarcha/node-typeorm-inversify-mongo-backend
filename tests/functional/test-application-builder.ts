@@ -1,5 +1,5 @@
 import { Application } from 'express';
-import { createServer } from '../../src/infrastructure/main';
+import { createServer, runDataInitializer } from '../../src/infrastructure/main';
 import { getConnection } from 'typeorm';
 
 
@@ -18,7 +18,8 @@ export class ApplicationBuilder {
 
     public static async recreateDatabase() {
         await ApplicationBuilder.bootServer();
-        return await getConnection().synchronize(true);
+        await getConnection().synchronize(true);
+        return runDataInitializer();
     }
 
 
@@ -26,10 +27,14 @@ export class ApplicationBuilder {
         getConnection().isConnected || await getConnection().connect(); // tslint:disable-line
     }
 
-    // Delete the server so we can recreate it with the initial data
     static async deleteServer() {
-        await getConnection().close();
-        delete ApplicationBuilder.application;
+        try {
+            if (getConnection() && getConnection().isConnected) {
+                await getConnection().close();
+            }
+        } catch (e) {
+            console.log('Error closing connection');
+        }
     }
 }
 

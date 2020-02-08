@@ -9,6 +9,7 @@ export interface IUser extends IBaseEntity {
     locale: string;
     passwordResetToken: string;
     passwordResetExpires: Date;
+    roles: IUserRole[];
     tokens: IAuthToken[];
     apiTokens: IApiToken[];
 }
@@ -25,10 +26,21 @@ export interface IApiToken  extends IBaseEntity {
 }
 
 export interface IUserRepository extends IRepository<IUser> {
-    get(id: object | string | number): Promise<IUser>;
+    get(id: object | string | number, options?: any): Promise<IUser>;
 }
 
 export interface IRegistryParams {
     password: string;
     email: string;
+}
+
+export interface IUserRole extends IBaseEntity {
+    role: UserRoles;
+    user?: IUser;
+}
+
+export enum UserRoles {
+    'user',
+    'admin',
+    'superadmin'
 }

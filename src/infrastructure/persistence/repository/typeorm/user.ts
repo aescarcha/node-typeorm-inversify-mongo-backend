@@ -4,8 +4,8 @@ import { IUser, IUserRepository } from '../../../../domain/user/interfaces';
 
 @EntityRepository(userMapping as any)
 export class UserRepository extends MongoRepository<IUser> implements IUserRepository {
-    public get(id: number): Promise<IUser> {
-        return super.findOneOrFail(id);
+    public get(id: number, options?: any): Promise<IUser> {
+        return super.findOneOrFail(id, options);
     }
 }
 

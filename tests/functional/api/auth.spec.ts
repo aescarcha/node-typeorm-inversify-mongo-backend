@@ -5,6 +5,7 @@ import { ApplicationBuilder } from '../test-application-builder';
 import * as request from 'supertest';
 import { users } from '../../test-data';
 import { expect } from 'chai';
+import { UserRoles } from '../../../src/domain/user/interfaces';
 
 describe('User API functional test:', () => {
     let app: Application;
@@ -35,6 +36,7 @@ describe('User API functional test:', () => {
 
         expect(result.body.result).to.be.equal('success');
         expect(result.body.data.email).to.deep.equal(users[0].email);
+        expect(result.body.data.roles[0].role).to.deep.equal(UserRoles.user);
         expect(result.body.data.password).to.be.undefined;
 
 
@@ -49,6 +51,7 @@ describe('User API functional test:', () => {
 
         expect(result2.body.result).to.be.equal('success');
         expect(result2.body.data.email).to.deep.equal(users[1].email);
+        expect(result.body.data.roles[0].role).to.deep.equal(UserRoles.user);
         expect(result2.body.data.password).to.be.undefined;
     });
 
@@ -77,7 +80,7 @@ describe('User API functional test:', () => {
         expect(result.body.data.email).to.equal(users[0].email);
         // Check password is not there
         expect(result.body.data.password).to.be.undefined;
-
+        expect(result.body.data.roles[0].role).to.deep.equal(UserRoles.user);
     });
 
 });

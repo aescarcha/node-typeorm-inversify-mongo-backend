@@ -2,7 +2,7 @@ import * as express from 'express';
 import { controller, httpGet, httpPost, request, requestBody, response } from 'inversify-express-utils';
 import { jwtAuthMiddleware, localAuthMiddleware } from '../middleware/auth';
 import { TYPE } from '../dependency_injection/types';
-import { AuthService } from '../../application/services/user-service';
+import { AuthService } from '../../application/services/auth-service';
 import { inject } from 'inversify';
 import { IRegistryParams, IUser } from '../../domain/user/interfaces';
 import { IQueryResult, ITransactionResult } from '../../application/interfaces/dtos';

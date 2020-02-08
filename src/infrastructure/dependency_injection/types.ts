@@ -1,10 +1,11 @@
 export const TYPE = {
     Controllers: {
-        UserController: Symbol('PlaylistController')
+        UserController: Symbol('UserController')
     },
     Repositories: {
         Domain: {
-            User: Symbol('PlaylistRepository'),
+            User: Symbol('UserRepository'),
+            UserRole: Symbol('UserRoleRepository'),
         }
     },
     Services: {

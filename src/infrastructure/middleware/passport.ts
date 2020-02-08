@@ -1,7 +1,7 @@
 import * as passport from 'passport';
 import * as passportLocal from 'passport-local';
 import * as passportJwt from 'passport-jwt';
-import { AuthService } from '../../application/services/user-service';
+import { AuthService } from '../../application/services/auth-service';
 import { TYPE } from '../dependency_injection/types';
 import { IUser } from '../../domain/user/interfaces';
 import { Container } from 'inversify';

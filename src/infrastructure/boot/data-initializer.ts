@@ -1,8 +1,8 @@
 
-import { AuthService } from '../../application/services/user-service';
+import { AuthService } from '../../application/services/auth-service';
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../dependency_injection/types';
-import { IUser } from '../../domain/user/interfaces';
+import { IUser, UserRoles } from '../../domain/user/interfaces';
 import uuid = require('uuid');
 
 @injectable()
@@ -27,16 +27,37 @@ export class DataInitializer {
                 locale: '',
                 passwordResetToken: '',
                 passwordResetExpires: undefined,
+                roles: [
+                    {
+                        id: uuid.v4(),
+                        created: new Date(),
+                        role: UserRoles.user
+                    },
+                    {
+                        id: uuid.v4(),
+                        created: new Date(),
+                        role: UserRoles.admin
+                    },
+                    {
+                        id: uuid.v4(),
+                        created: new Date(),
+                        role: UserRoles.superadmin
+                    }
+                ],
                 tokens: [],
                 apiTokens: []
             },
         ];
 
         await initial.forEach(async (initalItem) => {
-            const exists: any = await this.authService.findByEmail(initalItem.email);
-            if (!exists) {
-                const res = await this.authService.create(initalItem);
-                console.log('Created initial user', res);
+            try {
+                const exists: any = await this.authService.findByEmail(initalItem.email);
+                if (!exists) {
+                    const res = await this.authService.create(initalItem);
+                    console.log('Created initial user', res.email);
+                }
+            } catch (e) {
+                console.warn('Error creating initial user', initalItem.email);
             }
         });
     }

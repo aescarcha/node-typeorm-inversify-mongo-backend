@@ -2,6 +2,7 @@ import { createConnection } from 'typeorm';
 import { userMapping } from '../../mapping/typeorm/user';
 import { apiTokenMapping } from '../../mapping/typeorm/api-token';
 import { authTokenMapping } from '../../mapping/typeorm/auth-token';
+import { userRoleMapping } from '../../mapping/typeorm/user-role';
 
 export async function getDbConnection() {
     const config = require('config');
@@ -15,6 +16,7 @@ export async function getDbConnection() {
 
     const entities = [
         userMapping,
+        userRoleMapping,
         apiTokenMapping,
         authTokenMapping,
     ];

@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { TYPE } from '../../infrastructure/dependency_injection/types';
-import { IRegistryParams, IUser, IUserRepository } from '../../domain/user/interfaces';
+import { IRegistryParams, IUser, IUserRepository, UserRoles } from '../../domain/user/interfaces';
 import * as bcrypt from 'bcrypt-nodejs';
 import { sign } from 'jsonwebtoken';
 import uuid = require('uuid');
@@ -25,7 +25,7 @@ export class AuthService {
     }
 
     public get(id: object | string | number): Promise<IUser> {
-        return this.userRepository.get(id);
+        return this.userRepository.get(id, {relations: ['roles'] });
     }
 
     public async findByEmail(email: string): Promise<IUser> {
@@ -49,7 +49,14 @@ export class AuthService {
             passwordResetToken: '',
             passwordResetExpires: undefined,
             tokens: [],
-            apiTokens: []
+            apiTokens: [],
+            roles: [
+                {
+                    id: uuid.v4(),
+                    created: new Date(),
+                    role: UserRoles.user
+                },
+            ]
         };
 
         return this.create(user);

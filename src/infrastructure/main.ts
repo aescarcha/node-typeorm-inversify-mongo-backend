@@ -12,10 +12,14 @@ import { loadPassport } from './middleware/passport';
 export let container = new Container();
 export let server;
 
-export async function createContainer() {
-    await container.loadAsync(bindings);
+export async function runDataInitializer() {
     const initializer: DataInitializer = container.get(TYPE.Services.Infrastructure.DataInitializer);
     await initializer.initialize();
+}
+
+export async function createContainer() {
+    await container.loadAsync(bindings);
+    await runDataInitializer();
     loadPassport(container);
     return container;
 }

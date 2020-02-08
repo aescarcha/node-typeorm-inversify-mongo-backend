@@ -13,6 +13,7 @@ export const users: IUser[] = [
         password: "dfjadsf213asss",
         passwordResetExpires: undefined,
         passwordResetToken: "",
+        roles: [],
         tokens: [],
         updated: new Date()
     },
@@ -28,6 +29,7 @@ export const users: IUser[] = [
         password: "dfjads12asf213asss",
         passwordResetExpires: undefined,
         passwordResetToken: "",
+        roles: [],
         tokens: [],
         updated: new Date()
     }
